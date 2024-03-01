@@ -2,8 +2,7 @@ const username = "Christian"
 const password1 = "p4sSw0rD"
 const password2 = "p4sSw0rD"
 
-console.log(validatePassword(password1, password2))
-console.log(reversePassword(password2))
+console.log(storePassword(username, password1, password2))
 
 function matchPassword (password1, password2) {
     if (password1 === password2) {
@@ -109,5 +108,26 @@ function reversePassword(password) {
         reversedPassword = reversedPassword + password[i] 
     }
 
-    return {"reversedPassword": reversedPassword}
+    return {
+        "reversedPassword": reversedPassword
+    }
 }
+
+
+function storePassword(username, password1, password2) {
+    const userData = {
+        name: username,
+        newPassword: password1
+    }
+
+    if (validatePassword(password1, password2)["is_valid"]) {
+        userData.newPassword = reversePassword(password1)["reversedPassword"]
+        return userData
+    }
+
+    return userData
+}
+
+
+
+  
