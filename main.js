@@ -3,6 +3,7 @@ const password1 = "p4sSw0rD"
 const password2 = "p4sSw0rD"
 
 console.log(validatePassword(password1, password2))
+console.log(reversePassword(password2))
 
 function matchPassword (password1, password2) {
     if (password1 === password2) {
@@ -68,17 +69,45 @@ function strictPassword (password) {
 
 function validatePassword(password1, password2) {
 
+    let details = ""
+    
     if (!matchPassword(password1, password2)) {
-        return false
+        details = "Password does not match!"
+        return {
+            "is_valid": false,
+            "details": details
+        }
     }
 
-    if (!lengthPassword(password1) || !lengthPassword(password2)) {
-        return false
+    if (!lengthPassword(password1)) {
+        details = "Password must be at least 8 characters long!"
+        return {
+            "is_valid": false,
+            "details": details
+        }
     }
 
-    if (strictPassword(password1) && strictPassword(password2)){
-        return true
+    if (!strictPassword(password1)){
+        details = "Password must contain at least 1 number, 1 uppercase character, and 1 lowercase character"
+        return {
+            "is_valid": false,
+            "details": details
+        }
     }
 
-    return false
+    details = "Valid password!"
+    return {
+        "is_valid": true,
+        "details": details
+    }
+}
+
+function reversePassword(password) {
+    let reversedPassword = ""
+
+    for (let i=(password.length-1); i>=0; i--){
+        reversedPassword = reversedPassword + password[i] 
+    }
+
+    return {"reversedPassword": reversedPassword}
 }
