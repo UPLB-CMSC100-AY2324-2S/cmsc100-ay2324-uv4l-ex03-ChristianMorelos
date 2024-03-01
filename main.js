@@ -1,3 +1,4 @@
+//imported functions from validation.js
 const { matchPassword, lengthPassword, strictPassword } = require("./util/validation.js");
 
 const username = "Christian"
@@ -6,45 +7,41 @@ const password2 = "p4sSw0rD"
 
 console.log(storePassword(username, password1, password2))
 
-
+//runs password through various checks
 function validatePassword(password1, password2) {
-
-    let details = ""
     
     if (!matchPassword(password1, password2)) {
-        details = "Password does not match!"
         return {
             "is_valid": false,
-            "details": details
+            "details": "Password does not match!"
         }
     }
 
     if (!lengthPassword(password1)) {
-        details = "Password must be at least 8 characters long!"
         return {
             "is_valid": false,
-            "details": details
+            "details": "Password must be at least 8 characters long!"
         }
     }
 
     if (!strictPassword(password1)){
-        details = "Password must contain at least 1 number, 1 uppercase character, and 1 lowercase character"
         return {
             "is_valid": false,
-            "details": details
+            "details": "Password must contain at least 1 number, 1 uppercase character, and 1 lowercase character"
         }
     }
 
-    details = "Valid password!"
+    //if passwords passed all checks return valid with details
     return {
         "is_valid": true,
-        "details": details
+        "details": "Valid password!"
     }
 }
 
 function reversePassword(password) {
     let reversedPassword = ""
 
+    //create a reverse version of the password
     for (let i=(password.length-1); i>=0; i--){
         reversedPassword = reversedPassword + password[i] 
     }
@@ -56,12 +53,19 @@ function reversePassword(password) {
 
 
 function storePassword(username, password1, password2) {
+
+    //initialized user data
     const userData = {
         name: username,
-        newPassword: password1
+        newPassword: password1,
+        details: ""
     }
 
-    if (validatePassword(password1, password2)["is_valid"]) {
+    let passwordData = validatePassword(password1, password2)
+    userData.details = passwordData["details"]
+
+    //if password is valid make new password the reverse
+    if (passwordData["is_valid"]) {
         userData.newPassword = reversePassword(password1)["reversedPassword"]
         return userData
     }
